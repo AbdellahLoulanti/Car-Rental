@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#333333',
+                        secondary: '#eece1a'
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('images/Black logo - no background.png')"
+                    },
+                    fontFamily: {
+                        sans: ['ui-sans-serif', 'system-ui']
+                    },
+                    spacing: {
+                     '450': '480px'  // Key is the Tailwind class suffix, value is the CSS value.
+      }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="font-sans bg-gray-100 bg-hero-pattern bg-no-repeat bg-center bg-cover">
+
+    <header class="bg-primary text-white text-center py-5">
+        <h1 class="text-3xl font-bold">Welcome to AB2 Cars</h1>
+        <h2 class="text-secondary font-semibold text-2xl mt-2">Car Rental Service</h2>
+    </header>
+
+    <!-- License Plate Container -->
+<div class="flex justify-center items-center my-10 bg-gray-200 p-2 rounded-lg shadow-xl ml-450" style="width: 400px;">
+    <!-- License Plate Left Sidebar -->
+    <div class="w-16 h-24 rounded-l-md bg-blue-800 text-white text-xl border-3 border-gray-700 flex flex-col items-center justify-center shadow-inner" style="border-right: none;">
+        <!-- EU symbol and country identifier (B for Belgium) would go here -->
+        <span class="font-bold" style="font-size: 0.85rem;">EU</span>
+        <span class="font-semibold">B</span>
+    </div>
+
+    <!-- Form Card Styled as the Center of the License Plate -->
+    <div class="flex-grow bg-white rounded-r-md shadow-lg" style="height: 96px; border: 3px solid #333;">
+        <form action="/login" method="get" class="h-full flex items-center justify-center">
+            <!-- Input field styled like a matriculation number -->
+            <input type="submit" name="license" value="1-LOGIN-123" style="font-size: 1.75rem; font-weight: bold; text-align: center; letter-spacing: 0.2em; width: 90%; border: none; background: transparent; cursor: pointer; transition: background-color 0.3s;">
+        </form>
+    </div>
+</div>
+
+
+    <footer class="text-center p-4 text-gray-600">
+        <p>&copy; 2024 AB2 Cars. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

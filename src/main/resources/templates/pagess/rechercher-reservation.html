@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Search Results</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            background-color: #f0f0f0;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h2 {
+            margin: 0;
+            color: #FF8C00;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 2px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #2F4F4F;
+            color: white;
+        }
+        button, a {
+            font-family: Georgia, serif;
+            padding: 10px 15px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        button:hover, a:hover {
+            background-color: #555;
+        }
+        input[type="text"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+            width: calc(60% - 22px);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h2>Search Reservations by Vehicle Name</h2>
+    <button onclick="location.href='/managerpage'">Back to Management</button>
+</div>
+
+<!-- Search Form -->
+
+
+<!-- Reservation Table -->
+<table>
+    <thead>
+        <tr>
+            <th>Nom de client</th>
+            <th>Voiture</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody th:if="${not #lists.isEmpty(reservations)}">
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.nomClient}"></td>
+            <td th:text="${reservation.nomVoiture}"></td>
+            <td th:text="${#temporals.format(reservation.dateDebut, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(reservation.dateFin, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${reservation.status}"></td>
+        </tr>
+    </tbody>
+    <tbody th:if="${#lists.isEmpty(reservations)}">
+        <tr>
+            <td colspan="5">No reservations found for the specified vehicle.</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

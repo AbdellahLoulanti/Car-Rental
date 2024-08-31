@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des clients</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+        }
+
+        th, td {
+            border: 3px solid #dddddd;
+            text-align: left;
+            padding: 15px;
+            font-size: 17px;
+            
+        }
+        
+        thead tr {
+        color : white; }
+
+        th {
+            background-color: #2F4F4F;
+        }
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h2 {
+            margin: 0;
+            color: #FF8C00;
+        }
+        button {
+            font-family: Georgia, serif;
+            padding: 20px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        form button {
+            font-family: Georgia, serif;
+            padding: 10px 10px;
+            background-color: #696969;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        a {
+            font-family: Georgia, serif;
+            padding: 10px 10px;
+            background-color: #696969;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+            vertical-align: middle;
+            text-decoration: none; /* Supprimer la décoration du lien */
+             
+        }
+        a:hover {
+            background-color: #555;
+        }
+        input[type="text"] {
+    width: 30%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+    <div class="navbar">
+        <h2>Liste des clients</h2>
+        <button onclick="location.href='/managerpage'">Retour</button>
+    </div>
+
+<br><br>
+<center>
+    <form th:action="@{/rechercher-client}" method="post">
+        <input type="text" name="cin" placeholder="CIN">
+        <button type="submit">Rechercher</button>
+    </form>
+
+
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>CIN</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="client : ${clients}">
+            <td th:text="${client.nom}"></td>
+            <td th:text="${client.prenom}"></td>
+            <td th:text="${client.cin}"></td>
+            <td>
+                <a th:href="@{'/modifier-client/' + ${client.id}}">Modifier</a>
+                <a th:href="@{'/supprimer-client/' + ${client.id}}">Supprimer</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</center>
+
+</body>
+</html>

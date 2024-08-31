@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter Réservation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#444', // Dark grey
+                        secondary: '#eece1a' // Bright yellow
+                    }
+                }
+            }
+        };
+
+        function updatePriceAndDuration() {
+            const selectElement = document.getElementById('voitureId');
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const dailyPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+            document.getElementById('dailyPrice').value = dailyPrice.toFixed(2); // Update the daily price display
+
+            const days = calculateDays();
+            const totalPrice = dailyPrice * days;
+            document.getElementById('totalPrice').value = totalPrice.toFixed(2); // Update the total price
+            calculateFinalPrice(); // Update the final price after any discount
+        }
+
+        function calculateDays() {
+            const startDate = new Date(document.getElementById('dateDebut').value);
+            const endDate = new Date(document.getElementById('dateFin').value);
+            const timeDiff = endDate - startDate;
+            return timeDiff > 0 ? Math.ceil(timeDiff / (1000 * 3600 * 24)) : 0;
+        }
+
+        function calculateFinalPrice() {
+            const totalPrice = parseFloat(document.getElementById('totalPrice').value) || 0;
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const finalPrice = totalPrice - (totalPrice * (discount / 100));
+            document.getElementById('finalPrice').value = finalPrice.toFixed(2);
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <header class="bg-primary text-white text-center py-5 relative overflow-hidden">
+        <div class="z-10 relative">
+            <h2 class="text-3xl font-bold">Ajouter Réservation</h2>
+            <p class="text-secondary font-semibold text-2xl mt-2">Enregistrez une nouvelle réservation</p>
+        </div>
+    </header>
+    
+    <div class="container mx-auto max-w-4xl my-10 p-5 bg-white rounded-lg shadow-lg">
+        <form action="/AjouterReservation" method="post" class="flex flex-wrap justify-between items-end">
+            <!-- Car Selection -->
+            <div class="w-full md:w-1/2 p-3">
+                <label for="clientId" class="block text-gray-700 text-sm font-semibold mb-2">Nom du client :</label>
+                <input type="text" id="nomClient" name="nomClient" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="w-full md:w-1/2 p-3">
+                <label for="voitureId" class="block text-gray-700 text-sm font-semibold mb-2">Choisissez une voiture :</label>
+                <select id="voitureId" name="voitureId" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" onchange="updatePriceAndDuration()">
+                    <option value="">Sélectionnez une voiture</option>
+                    <option th:each="voiture : ${voitures}" th:value="${voiture.id}" th:data-price="${voiture.prixLocation}" th:text="${voiture.marque + '-' + voiture.modele}"></option>
+                </select>
+            </div>
+
+            <!-- Date Selection -->
+            <div class="w-full md:w-1/2 p-3">
+                <label for="dateDebut" class="block text-gray-700 text-sm font-semibold mb-2">Date de début :</label>
+                <input type="datetime-local" id="dateDebut" name="dateDebut" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" onchange="updatePriceAndDuration()">
+            </div>
+            <div class="w-full md:w-1/2 p-3">
+                <label for="dateFin" class="block text-gray-700 text-sm font-semibold mb-2">Date de fin :</label>
+                <input type="datetime-local" id="dateFin" name="dateFin" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" onchange="updatePriceAndDuration()">
+            </div>
+
+            <!-- Price Display -->
+            <div class="w-full md:w-1/2 p-3">
+                <label for="dailyPrice" class="block text-gray-700 text-sm font-semibold mb-2">Prix Quotidien (MAD):</label>
+                <input type="text" id="dailyPrice" name="dailyPrice" readonly class="w-full p-3 border border-gray-300 rounded-lg">
+            </div>
+            <div class="w-full md:w-1/2 p-3">
+                <label for="totalPrice" class="block text-gray-700 text-sm font-semibold mb-2">Prix Total (MAD):</label>
+                <input type="text" id="totalPrice" name="totalPrice" readonly class="w-full p-3 border border-gray-300 rounded-lg">
+            </div>
+
+            <!-- Optional Discount -->
+            <div class="w-full md:w-1/2 p-3">
+                <label for="discount" class="block text-gray-700 text-sm font-semibold mb-2">Remise (%) (Optionnel):</label>
+                <input type="number" id="discount" name="discount" min="0" max="100" value="0" class="w-full p-3 border border-gray-300 rounded-lg" onchange="calculateFinalPrice()">
+            </div>
+            <div class="w-full md:w-1/2 p-3">
+                <label for="finalPrice" class="block text-gray-700 text-sm font-semibold mb-2">Prix Final Après Remise (MAD):</label>
+                <input type="text" id="finalPrice" name="finalPrice" readonly class="w-full p-3 border border-gray-300 rounded-lg">
+            </div>
+            <div class="w-full md:w-1/2 p-3">
+                <label for="status" class="block text-gray-700 text-sm font-semibold mb-2">Statut :</label>
+                <select id="status" name="status" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+                    <option value="En attente">En attente</option>
+                    <option value="Confirmée">Confirmée</option>
+                    <option value="Annulée">Annulée</option>
+                </select>
+            </div>
+            <!-- Submission -->
+            <div class="w-full md:w-1/2 p-3">
+                <button type="submit" class="w-full py-3 bg-secondary hover:bg-opacity-90 text-black rounded-lg transition duration-300 ease-in-out">Réserver</button>
+            </div>
+        </form>
+        <button onclick="location.href='/managerpage'" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition duration-300 ease-in-out">Retour</button>
+    </div>
+
+</body>
+</html>

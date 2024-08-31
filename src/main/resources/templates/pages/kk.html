@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des voitures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .primary-bg { background-color: #333333; }
+        .hover-bg-secondary { background-color: #555; }
+        .secondary-text { color: #FF8C00; }
+        .action-bg { background-color: #696969; }
+    </style>
+</head>
+<body class="font-serif m-0 p-0 bg-gray-100">
+
+    <!-- Navbar -->
+    <div class="primary-bg text-white p-4 flex justify-between items-center">
+        <h2 class="text-lg secondary-text">Liste des voitures</h2>
+        <button onclick="location.href='/managerpage'" class="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded transition-colors duration-300">Retour</button>
+    </div>
+
+    <div class="flex justify-center my-8">
+        <form th:action="@{/rechercher-voiture}" method="post" class="flex items-center">
+            <input type="text" name="matricule" placeholder="Matricule" class="py-2 px-4 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary-bg focus:border-transparent">
+            <button type="submit" class="bg-action-bg hover:bg-gray-600 text-white py-2 px-4 rounded-r-md transition-colors duration-300">Rechercher</button>
+        </form>
+    </div>
+
+    <div class="flex justify-center">
+        <table class="w-1/2 text-left">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="px-4 py-2">Numero</th>
+                    <th class="px-4 py-2">Marque</th>
+                    <th class="px-4 py-2">Matricule</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                <tr th:each="voiture : ${voitures}">
+                    <td th:text="${voiture.numero}" class="border-b border-gray-200 px-4 py-2"></td>
+                    <td th:text="${voiture.marque}" class="border-b border-gray-200 px-4 py-2"></td>
+                    <td th:text="${voiture.matricule}" class="border-b border-gray-200 px-4 py-2"></td>
+                    <td class="border-b border-gray-200 px-4 py-2">
+                        <a th:href="@{'/modifier-voiture/' + ${voiture.id}}" class="bg-action-bg hover:bg-gray-600 text-white py-1 px-2 rounded transition-colors duration-300 mr-2">Modifier</a>
+                        <a th:href="@{'/supprimer-voiture/' + ${voiture.id}}" class="bg-red-600 hover:bg-red-700 text-white py-1 px-2 rounded transition-colors duration-300">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

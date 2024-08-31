@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la Voiture</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/card-transition@1.0.0/dist/card-transition.min.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#444',
+                        secondary: '#eece1a'
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navbar -->
+    <div class="bg-primary text-white p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Détails de la Voiture</h1>
+        <button onclick="location.href='/voir-voitures'" class="py-2 px-4 bg-secondary hover:bg-opacity-80 rounded text-black">Retour</button>
+    </div>
+
+    <!-- Car Details -->
+    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="w-full md:w-1/2">
+                <img th:if="${voiture.imageBase64}" th:src="${voiture.imageBase64}" alt="Voiture Image" class="w-full h-auto rounded-lg">
+            </div>
+            <div class="w-full md:w-1/2 md:ml-6 mt-6 md:mt-0">
+                <h2 th:text="${voiture.marque} + ' ' + ${voiture.modele}" class="text-3xl font-semibold text-gray-800"></h2>
+                <p th:text="'Année de Fabrication: ' + ${voiture.anneeFab}" class="text-gray-600 mt-4"></p>
+                <p th:text="'Matricule: ' + ${voiture.matricule}" class="text-gray-600 mt-2"></p>
+                <p th:text="'Prix de Location: ' + ${voiture.prixLocation} + ' DH'" class="text-gray-600 mt-2"></p>
+                <p th:text="'Disponibilité: ' + ${voiture.dispo}" class="text-gray-600 mt-2"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

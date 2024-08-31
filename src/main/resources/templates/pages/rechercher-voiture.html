@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cars Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#444',       // Dark grey
+                        secondary: '#eece1a'   // Yellow
+                    },
+                    fontFamily: {
+                        sans: ['ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Navbar -->
+<div class="bg-primary text-white p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+        <i class="fas fa-search fa-lg"></i>
+        <h2 class="text-2xl font-bold">Search Cars by Matricule</h2>
+    </div>
+    <button onclick="location.href='/managerpage'" class="py-2 px-4 bg-secondary hover:bg-opacity-80 rounded text-black">Back to Management</button>
+</div>
+
+<!-- Error message display -->
+<div th:if="${errorMessage}" class="text-center text-red-500 mt-4">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<main class="py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <!-- Table -->
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                <table class="w-full text-left text-gray-500">
+                    <thead class="text-xs text-white uppercase bg-primary">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Numero</th>
+                            <th scope="col" class="py-3 px-6">Marque</th>
+                            <th scope="col" class="py-3 px-6">Matricule</th>
+                            <th scope="col" class="py-3 px-6">Prix</th>
+                            <th scope="col" class="py-3 px-6">Image</th>
+                        </tr>
+                    </thead>
+                    <tbody th:if="${not #lists.isEmpty(voitures)}">
+                        <tr th:each="voiture : ${voitures}" class="border-b bg-white hover:bg-gray-50">
+                            <td th:text="${voiture.numero}" class="py-4 px-6"></td>
+                            <td th:text="${voiture.marque}" class="py-4 px-6"></td>
+                            <td th:text="${voiture.matricule}" class="py-4 px-6"></td>
+                            <td th:text="${voiture.prixLocation}" class="py-4 px-6"></td>
+                            <td class="py-4 px-6">
+                                <img th:if="${voiture.imageBase64}" th:src="${voiture.imageBase64}" class="py-4 px-6" style="width: 200px; height: auto;"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody th:if="${#lists.isEmpty(voitures)}">
+                        <tr>
+                            <td colspan="5" class="text-center border px-4 py-2">No Cars found for the specified matricule.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

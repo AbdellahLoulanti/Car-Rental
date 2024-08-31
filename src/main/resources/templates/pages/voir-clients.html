@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des clients</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#444', // Dark grey
+                        secondary: '#eece1a' // Yellow
+                    },
+                    fontFamily: {
+                        sans: ['ui-sans-serif', 'system-ui'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Navbar -->
+<div class="bg-primary text-white p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+        <img src="images/White logo - no background.png" alt="Logo" class="h-12 w-auto">
+        <h1 class="text-2xl font-bold">Liste des clients  <i class="fa-solid fa-users"></i></h1>
+    </div>
+    <button onclick="location.href='/managerpage'" class="py-2 px-4 bg-secondary hover:bg-opacity-80 rounded text-black">Retour</button>
+</div>
+
+<main class="py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <!-- Search Form -->
+            <div class="mb-8">
+                <form action="/rechercher-client" method="post" class="flex gap-4 items-center">
+                    <input type="text" name="cin" placeholder="Enter CIN" class="flex-grow p-4 border-2 rounded-lg focus:outline-none focus:border-secondary transition duration-200 ease-in-out">
+                    <button type="submit" class="bg-primary hover:bg-opacity-90 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 ease-in-out">Search</button>
+                </form>
+            </div>
+            
+            <!-- Table -->
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                <table class="w-full text-center text-gray-500">
+                    <thead class="text-xs text-white uppercase bg-primary">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Image</th>
+                            <th scope="col" class="py-3 px-6">Nom</th>
+                            <th scope="col" class="py-3 px-6">Prénom</th>
+                            <th scope="col" class="py-3 px-6">CIN</th>
+                            <th scope="col" class="py-3 px-4 text-center" width="260px">Action</th>               
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Use th:each for iterating over clients -->
+                        <tr th:each="client : ${clients}" class="border-b bg-white hover:bg-gray-50">
+                            <td class="py-4 px-6 text-center">
+                                <img th:if="${client.imageBase64}" th:src="${client.imageBase64}" alt="Client Image" class="w-14 h-14 rounded-full mx-auto">
+                            </td>
+                            <td th:text="${client.nom}" class="py-4 px-6"></td>
+                            <td th:text="${client.prenom}" class="py-4 px-6"></td>
+                            <td th:text="${client.cin}" class="py-4 px-6"></td>
+                            <td class="py-4 px-6 flex justify-center items-center">
+                                <a th:href="@{'/modifier-client/' + ${client.id}}" class="bg-secondary hover:bg-opacity-80 text-black px-3 py-1 rounded mr-2">Modifier</a>
+                                <a th:href="@{'/supprimer-client/' + ${client.id}}" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Supprimer</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Recherche</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+       
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h2 {
+            margin: 0;
+            color: #FF8C00;
+        }
+       
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #FF8C00;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #DCDCDC;
+            border-radius: 4px;
+        }
+        li p {
+            margin: 0;
+            display: inline-block;
+        }
+        
+        button {
+            font-family: Georgia, serif;
+            padding: 20px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        div a {
+            font-family: Georgia, serif;
+            padding: 20px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+            vertical-align: middle;
+            text-decoration: none; /* Supprimer la décoration du lien */
+            margin-left: 10px; /* Ajouter une marge à gauche pour l'espace entre les liens */
+        }
+        div a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+    <div class="navbar">
+        <h2>Client par CIN</h2>
+        <button onclick="location.href='/voir-clients'">Retour</button>
+    </div>
+
+<div class="container">
+        <ul>
+            <li>
+                <p>Nom: <span th:text="${client.nom}"></span></p>
+            </li>
+            <li>
+                <p>Prénom: <span th:text="${client.prenom}"></span></p>
+            </li>
+            <li>
+                <p>Email: <span th:text="${client.email}"></span></p>
+            </li>
+            <li>
+                <p>Télephone: <span th:text="${client.tele}"></span></p>
+            </li>
+            <li>
+                <p>CIN: <span th:text="${client.cin}"></span></p>
+            </li>
+            <li>
+                <p>Mot de passe: <span th:text="${client.password}"></span></p>
+            </li>
+        </ul>
+    </div>
+    <div style="text-align : center;">
+        <!-- Ajoutez des boutons pour "Modifier" et "Supprimer" le manager si nécessaire -->
+        <a th:href="@{'/modifier-client/' + ${client.id}}">Modifier</a>
+        <a th:href="@{'/supprimer-client/' + ${client.id}}">Supprimer</a>
+    </div>
+
+
+
+
+
+</body>
+</html>

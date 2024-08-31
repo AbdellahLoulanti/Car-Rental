@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#444', // Dark grey
+                        secondary: '#eece1a' // Bright yellow
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- Navbar -->
+<div class="bg-primary text-white p-4 flex justify-between items-center">
+    <h2 class="text-lg font-bold">Bonjour Admin!</h2>
+    <div class="flex space-x-4">
+        <button onclick="location.href='/ajuser'" class="py-2 px-4 bg-secondary hover:bg-opacity-90 rounded text-black">Ajouter User</button>
+        <button onclick="location.href='/home'" class="py-2 px-4 bg-red-500 hover:bg-red-600 rounded text-white">Déconnexion</button>
+    </div>
+</div>
+
+<!-- Page Content -->
+<div class="mt-6 px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-semibold mb-5 text-primary">Dashboard Options</h2>
+    <div class="bg-white overflow-hidden shadow-2xl rounded-lg divide-y divide-gray-200 mb-6">
+        <div class="px-6 py-5">
+            <h3 class="text-2xl leading-6 font-medium text-gray-900">Liste des Managers</h3>
+            <p class="mt-1 text-sm text-gray-500">Manage manager information and permissions.</p>
+        </div>
+        <div class="px-6 py-4">
+            <ul>
+                <!-- Utilisation de Thymeleaf pour parcourir la liste des managers -->
+                <li th:each="manager : ${managers}" class="flex items-center mb-4 bg-gray-100 p-4 rounded-lg shadow-md">
+                    <!-- Afficher les détails de chaque manager avec leur image -->
+                    <img th:if="${manager.imageBase64}" th:src="${manager.imageBase64}" alt="Manager Image" class="w-16 h-16 rounded-full mr-4 shadow-lg">
+                    <div>
+                        <p th:text="${manager.nom + ' ' + manager.prenom}" class="text-lg font-semibold text-primary"></p>
+                        <a th:href="@{'/details-manager/' + ${manager.id}}" class="text-secondary hover:text-black hover:underline">Voir Détails</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Example card -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Additional cards for other categories if needed with similar structure -->
+        <!-- Placeholder for additional management cards -->
+    </div>
+</div>
+
+</body>
+</html>

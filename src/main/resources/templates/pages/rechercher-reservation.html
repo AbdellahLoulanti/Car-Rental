@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#444',       // Dark grey
+              secondary: '#eece1a'   // Yellow
+            },
+            fontFamily: {
+              sans: ['ui-sans-serif', 'system-ui'],
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Navbar -->
+<div class="bg-primary text-white p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+        <i class="fas fa-search fa-lg"></i>
+        <h2 class="text-2xl font-bold">Search Reservations by Vehicle Name</h2>
+    </div>
+    <button onclick="location.href='/managerpage'" class="py-2 px-4 bg-secondary hover:bg-opacity-80 rounded text-black">Back to Management</button>
+</div>
+
+<div th:if="${errorMessage}" class="text-center text-red-500">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<main class="py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <!-- Table -->
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                <table class="w-full text-left text-gray-500">
+                    <thead class="text-xs text-white uppercase bg-primary">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Nom de client</th>
+                            <th scope="col" class="py-3 px-6">Voiture</th>
+                            <th scope="col" class="py-3 px-6">Date début</th>
+                            <th scope="col" class="py-3 px-6">Date fin</th>
+                            <th scope="col" class="py-3 px-6">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody th:if="${not #lists.isEmpty(reservations)}">
+                        <tr th:each="reservation : ${reservations}" class="border-b bg-white hover:bg-gray-50">
+                            <td th:text="${reservation.nomClient}" class="py-4 px-6"></td>
+                            <td th:text="${reservation.nomVoiture}" class="py-4 px-6"></td>
+                            <td th:text="${#temporals.format(reservation.dateDebut, 'dd/MM/yyyy HH:mm')}" class="py-4 px-6"></td>
+                            <td th:text="${#temporals.format(reservation.dateFin, 'dd/MM/yyyy HH:mm')}" class="py-4 px-6"></td>
+                            <td th:text="${reservation.status}" class="py-4 px-6"></td>
+                        </tr>
+                    </tbody>
+                    <tbody th:if="${#lists.isEmpty(reservations)}">
+                        <tr>
+                            <td colspan="5" class="text-center border px-4 py-2">No reservations found for the specified vehicle.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

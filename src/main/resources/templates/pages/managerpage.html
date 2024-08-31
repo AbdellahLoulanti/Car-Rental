@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Tableau de Bord du Gestionnaire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animation de transition */
+        .card-transition {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-transition:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+        }
+        .btn:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Flexbox to keep footer at the bottom */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+    </style>
+    <script>
+        // Dynamic configuration for TailwindCSS
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a202c', // Dark grey
+                        secondary: '#2d3748', // Darker grey
+                        accent: '#ffdd57' // Yellow
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="images/White logo - no background.png" alt="Logo" class="h-12 w-auto">
+                <h1 class="text-lg font-bold">Gestionnaire Dashboard</h1>
+            </div>
+            <button onclick="location.href='/home'" class="py-2 px-4 bg-accent hover:bg-opacity-90 rounded text-primary btn">Déconnexion</button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <nav class="bg-white shadow mb-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <ol class="flex space-x-4">
+                    <li><a href="/managerpage" class="text-primary hover:underline">Dashboard</a></li>
+                    <li class="text-gray-500">/</li>
+                    <li><span class="text-gray-500">Home</span></li>
+                </ol>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section des actions du gestionnaire -->
+    <main class="container mx-auto mt-6 px-4 sm:px-6 lg:px-8">
+        <h2 class="text-primary text-2xl font-semibold mb-5">Options de Gestion</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            <!-- Gestion des clients -->
+            <div class="bg-white overflow-hidden shadow-lg rounded-lg card-transition">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-accent text-primary p-2 rounded-md mr-3">
+                            <i class="fa-solid fa-person"></i>
+                        </div>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Clients</h3>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 mb-6">Gérer les informations et les dossiers des clients.</p>
+                    <div class="flex justify-between">
+                        <a href="/ajouter-client" class="bg-accent hover:bg-opacity-90 text-primary rounded-md shadow py-2 px-4 flex items-center btn">
+                            <i class="fas fa-plus mr-2"></i> Ajouter
+                        </a>
+                        <a href="/voir-clients" class="bg-primary hover:bg-opacity-90 text-white rounded-md shadow py-2 px-4 flex items-center btn">
+                            <i class="fas fa-eye mr-2"></i> Voir Tous
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestion des véhicules -->
+            <div class="bg-white overflow-hidden shadow-lg rounded-lg card-transition">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-accent text-primary p-2 rounded-md mr-3">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Véhicules</h3>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 mb-6">Gérer le catalogue des véhicules et leur statut.</p>
+                    <div class="flex justify-between">
+                        <a href="/ajouter-voiture" class="bg-accent hover:bg-opacity-90 text-primary rounded-md shadow py-2 px-4 flex items-center btn">
+                            <i class="fas fa-plus mr-2"></i> Ajouter
+                        </a>
+                        <a href="/voir-voitures" class="bg-primary hover:bg-opacity-90 text-white rounded-md shadow py-2 px-4 flex items-center btn">
+                            <i class="fas fa-eye mr-2"></i> Voir Tous
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestion des réservations -->
+            <div class="bg-white overflow-hidden shadow-lg rounded-lg card-transition">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-accent text-primary p-2 rounded-md mr-3">
+                            <i class="fa-regular fa-calendar"></i>
+                        </div>
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Réservations</h3>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500 mb-6">Gérer les détails des réservations et leur disponibilité.</p>
+                    <div class="flex justify-between">
+                        <a href="/AjouterReservation" class="bg-accent hover:bg-opacity-90 text-primary rounded-md shadow py-2 px-4 flex items-center btn">
+                            <i class="fas fa-plus mr-2"></i> Ajouter
+                        </a>
+                        <a href="/voir-reservations" class="bg-primary hover:bg-opacity-90 text-white rounded-md shadow py-2 px-4 flex items-center btn">
+                            <i class="fas fa-eye mr-2"></i> Voir Tous
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-primary text-white p-4">
+        <div class="text-center ">
+            <p class="text-sm text-center ">&copy; 2024 Car Rental System. All rights reserved.</p>
+            
+        </div>
+    </footer>
+
+</body>
+</html>

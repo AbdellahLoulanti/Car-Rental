@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des réservations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#444',       // Dark grey
+              secondary: '#eece1a'   // Yellow
+            },
+            fontFamily: {
+              sans: ['ui-sans-serif', 'system-ui'],
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Navbar -->
+<div class="bg-primary text-white p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+        <img src="images/White logo - no background.png" alt="Logo" class="h-12 w-auto">
+        <h2 class="text-2xl font-bold">Liste des réservations  <i class="fa-solid fa-calendar-days"></i></h2>
+    </div>
+    <button onclick="location.href='/managerpage'" class="py-2 px-4 bg-secondary hover:bg-opacity-80 rounded text-black">Retour</button>
+</div>
+
+<main class="py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <div class="mb-8">
+                <form th:action="@{/rechercher-reservation}" method="post" class="flex gap-4 items-center">
+                    <input type="text" name="nomVoiture" placeholder="Nom de voiture" class="flex-grow p-4 border-2 rounded-lg focus:outline-none focus:border-secondary transition duration-200 ease-in-out">
+                    <button type="submit" class="bg-primary hover:bg-opacity-90 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 ease-in-out">Rechercher</button>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                <table class="w-full text-left text-gray-500">
+                    <thead class="text-xs text-white uppercase bg-primary">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Nom de client</th>
+                            <th scope="col" class="py-3 px-6">Voiture</th>
+                            <th scope="col" class="py-3 px-6">Date début</th>
+                            <th scope="col" class="py-3 px-6">Date fin</th>
+                            <th scope="col" class="py-3 px-6">Status</th>
+                            <th scope="col" class="py-3 px-6">Actions</th>
+                        </tr>
+                    </thead>
+                  <tbody>
+                        <tr th:each="reservation : ${reservations}" class="border-b bg-white hover:bg-gray-50">
+                            <td th:text="${reservation.nomClient}" class="py-4 px-6"></td>
+                            <td th:text="${reservation.nomVoiture}" class="py-4 px-6"></td>
+                            <td th:text="${reservation.dateDebut}" class="py-4 px-6"></td>
+                            <td th:text="${reservation.dateFin}" class="py-4 px-6"></td>
+                            <td th:text="${reservation.status}" class="py-4 px-6"></td>
+                            <td class="py-4 px-6 text-right text-sm font-medium flex space-x-2">
+                                <form th:action="@{'/accepter-reservation/' + ${reservation.id}}" method="post">
+                                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded" th:classappend="${reservation.status == 'Confirmée'} ? 'bg-gray-400 cursor-not-allowed' : ''" th:disabled="${reservation.status == 'Confirmée'}">Accepter</button>
+                                </form>
+                                <form th:action="@{'/refuser-reservation/' + ${reservation.id}}" method="post">
+                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Refuser</button>
+                                </form>
+                                <a th:if="${reservation.status == 'Confirmée'}" th:href="@{'/download-reservation-pdf/' + ${reservation.id}}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"><i class="fa-solid fa-file-arrow-down"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

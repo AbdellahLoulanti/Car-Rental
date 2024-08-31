@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Modifier Client</title>
+    <style>
+    body {
+    font-family: Georgia, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.login-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #FF8C00;
+}
+.login-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+.login-form input[type="email"],
+.login-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h2 {
+            margin: 0;
+            color: #FF8C00;
+        }
+button {
+font-family: Georgia, serif;
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #555;
+}
+
+.erreur-message{
+text-align : center;
+     color : red;
+} 
+    
+    </style>
+</head>
+<body>
+
+
+<!-- Navbar -->
+    <div class="navbar">
+        <h2>Modifier les informations du Client</h2>
+        
+    </div>
+    
+    
+
+  <!-- Afficher le message d erreur si présent -->
+<div th:if="${errorMessage}" class="erreur-message">
+    <p th:text="${errorMessage}"></p>
+</div>
+ 
+ <div class="container login-form">
+    <form th:action="@{/modifier-client/{id}(id=${client.id})}" method="post" th:object="${client}">
+
+    <input type="hidden" id="id" name="id" th:value="${client.id}" readonly>
+    <br>
+    <!-- Champ pour le nom -->
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" th:field="*{nom}" required><br>
+    
+    <!-- Champ pour le prénom -->
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" name="prenom" th:field="*{prenom}" required><br>
+    
+    <!-- Champ pour l'email -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" th:field="*{email}" required><br>
+    
+    <!-- Champ pour le tele -->
+    <label for="tele">Telephone:</label>
+    <input type="text" id="tele" name="tele" th:field="*{tele}" required><br>
+    
+    <!-- Champ pour le mot de passe -->
+    <label for="password">Mot de passe:</label>
+    <input type="text" id="password" name="password" th:field="*{password}" required><br>
+    
+    <!-- Champ pour le cin -->
+    <label for="cin">CIN:</label>
+    <input type="text" id="cin" name="cin" th:field="*{cin}" required><br>
+    
+    <!-- Bouton de soumission du formulaire -->
+    <button type="submit">Enregistrer</button>
+    <br><br>
+    <button onclick="location.href='/voir-clients'">Retour</button>
+</form>
+
+    </div>
+</body>
+</html>

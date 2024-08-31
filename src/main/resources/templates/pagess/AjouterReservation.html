@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter Client</title>
+    <style>
+    body {
+    font-family: Georgia, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+h1 {
+    margin-top: 0;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.login-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin-bottom: 10px;
+}
+li a {
+    display: block;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+li a:hover {
+    background-color: #555;
+}
+h2 {
+    color: #FF8C00;
+}
+.login-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+.login-form input[type="email"],
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h2 {
+            margin: 0;
+            color: #FF8C00;
+        }
+button {
+font-family: Georgia, serif;
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #555;
+}
+.success-message{
+     text-align : center;
+     color : green;
+
+}
+.erreur-message{
+text-align : center;
+     color : red;
+}   
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+    <div class="navbar">
+        <h2>Ajouter Client</h2>
+        
+    </div>
+    
+    
+    <!-- Afficher le message de succès si présent -->
+<div th:if="${successMessage}" class="success-message">
+    <p th:text="${successMessage}"></p>
+</div>
+
+  <!-- Afficher le message d erreur si présent -->
+<div th:if="${errorMessage}" class="erreur-message">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+    <div class="container login-form">
+    <form action="/AjouterReservation" method="post">
+    <label for="clientId">Nom du client :</label>
+    <input type="text" id="nomClient" name="nomClient" required>
+    <br>
+ <label for="voitureId">Choisissez une voiture :</label>
+<select id="voitureId" name="voitureId" required>
+    <option value="">Sélectionnez une voiture</option>
+    <option th:each="voiture : ${voitures}" 
+            th:value="${voiture.id}" 
+            th:text="${voiture.marque + ' ' + voiture.modele}"></option>
+</select>
+
+
+    <br>
+    
+    <label for="dateDebut">Date de début :</label>
+    <input type="datetime-local" id="dateDebut" name="dateDebut" required>
+    <br>
+    <label for="dateFin">Date de fin :</label>
+    <input type="datetime-local" id="dateFin" name="dateFin" required>
+    <br>
+    <label for="status">Statut :</label>
+    <select id="status" name="status" required>
+        <option value="En attente">En attente</option>
+        <option value="Confirmée">Confirmée</option>
+        <option value="Annulée">Annulée</option>
+    </select>
+    <br>
+    <button type="submit">Réserver</button>
+    
+</form>
+
+    <br>
+    <button onclick="location.href='/managerpage'">Retour</button>
+    </div>
+</body>
+</html>

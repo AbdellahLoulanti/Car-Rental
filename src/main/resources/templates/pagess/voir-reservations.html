@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des réservations</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: auto; /* Centrer le tableau */
+        }
+        th, td {
+            border: 3px solid #dddddd;
+            text-align: left;
+            padding: 15px;
+            font-size: 17px;
+        }
+        thead tr {
+            color: white;
+            background-color: #2F4F4F;
+        }
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button, a {
+            font-family: Georgia, serif;
+            padding: 8px 12px;
+            margin-right: 5px; /* Espacement entre les boutons */
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:last-child {
+            margin-right: 0; /* Pas de marge à droite pour le dernier bouton */
+        }
+        button:hover, a:hover {
+            background-color: #555;
+        }
+        .btn-accept {
+            background-color: #4CAF50; /* Green */
+        }
+        .btn-reject {
+            background-color: #f44336; /* Red */
+        }
+        form button, input[type="text"] {
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+        }
+         .disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+         
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h2>Liste des réservations</h2>
+    <button onclick="location.href='/managerpage'">Retour</button>
+</div>
+
+<br>
+<center>
+    <form th:action="@{/rechercher-reservation}" method="post">
+        <input type="text" name="nomVoiture" placeholder="Nom de voiture">
+        <button type="submit">Rechercher</button>
+    </form>
+
+     <table>
+        <thead>
+            <tr>
+                <th>Nom de client</th>
+                <th>Voiture</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reservation : ${reservations}">
+                <td th:text="${reservation.nomClient}"></td>
+                <td th:text="${reservation.nomVoiture}"></td>
+                <td th:text="${reservation.dateDebut}"></td>
+                <td th:text="${reservation.dateFin}"></td>
+                <td th:text="${reservation.status}"></td>
+                <td>
+  <form th:action="@{'/accepter-reservation/' + ${reservation.id}}" method="post">
+                        <button type="submit" class="btn-accept" th:classappend="${reservation.status == 'Confirmée'} ? 'disabled' : ''" th:disabled="${reservation.status == 'Confirmée'}">Accepter</button>
+                    </form>
+<form th:action="@{'/refuser-reservation/' + ${reservation.id}}" method="post">
+    <button type="submit" class="btn-reject">Refuser</button>
+</form>
+
+            </td>
+            </tr>
+        </tbody>
+    </table>
+</center>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Voiture</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#444', // Dark grey
+                        secondary: '#eece1a' // Bright yellow
+                    },
+                    backgroundImage: {
+                        'brand-logo': "url('images/Black logo - no background.png')"
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <header class="bg-primary text-white text-center py-5 relative overflow-hidden">
+        <div style="background-image: url('images/Black logo - no background.png'); background-repeat: no-repeat; background-position: center; background-size: contain; opacity: 0.1; position: absolute; top: 0; left: 0; right: 0; bottom: 0;"></div>
+        <div class="z-10 relative">
+            <h2 class="text-3xl font-bold">Modifier les informations du Voiture</h2>
+            <p class="text-secondary font-semibold text-2xl mt-2">Update your car's information</p>
+        </div>
+    </header>
+
+    <!-- Error message display -->
+    <div th:if="${errorMessage}" class="text-center text-red-500">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <div class="max-w-xl mx-auto p-5 bg-white rounded-lg shadow-lg mt-5">
+        <form th:action="@{/modifier-voiture/{id}(id=${voiture.id})}" method="post" th:object="${voiture}">
+            <input type="hidden" id="id" name="id" th:value="${voiture.id}" readonly>
+
+            <!-- Form fields -->
+            <div class="mb-4">
+                <label for="numero" class="block text-gray-700">Numero de voiture:</label>
+                <input type="text" id="numero" name="numero" th:field="*{numero}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="mb-4">
+                <label for="marque" class="block text-gray-700">Marque:</label>
+                <input type="text" id="marque" name="marque" th:field="*{marque}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="mb-4">
+                <label for="modele" class="block text-gray-700">Modèle:</label>
+                <input type="text" id="modele" name="modele" th:field="*{modele}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="mb-4">
+                <label for="anneeFab" class="block text-gray-700">Année de Fabrication:</label>
+                <input type="text" id="anneeFab" name="anneeFab" th:field="*{anneeFab}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="mb-4">
+                <label for="matricule" class="block text-gray-700">Matricule:</label>
+                <input type="text" id="matricule" name="matricule" th:field="*{matricule}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="mb-4">
+                <label for="prixLocation" class="block text-gray-700">Prix de Location:</label>
+                <input type="number" id="prixLocation" name="prixLocation" th:field="*{prixLocation}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+            <div class="mb-4">
+                <label for="dispo" class="block text-gray-700">Disponibilité:</label>
+                <input type="text" id="dispo" name="dispo" th:field="*{dispo}" required class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent">
+            </div>
+
+            <!-- Submit and back buttons -->
+            <button type="submit" class="w-full py-3 mb-2 bg-secondary hover:bg-opacity-90 text-black rounded-lg transition duration-300 ease-in-out">Enregistrer</button>
+            <button onclick="location.href='/voir-voitures'" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition duration-300 ease-in-out">Retour</button>
+        </form>
+    </div>
+</body>
+</html>
